@@ -4,7 +4,9 @@
 ### Course Material
 
 [CMU-15-721-Video](https://www.bilibili.com/video/BV1Wz411b7sD?from=search&seid=1785395184520069316)
+
 [CMU-15-721-Course-website](https://15721.courses.cs.cmu.edu/spring2017/schedule.html)
+
 [MIT.6.824](https://www.bilibili.com/video/av91748150)
 
 ### Papers

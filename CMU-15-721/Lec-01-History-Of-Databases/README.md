@@ -216,11 +216,160 @@ NewSQL通常是通过分区和分片来实现其高可扩展性的。
 
 每个节点都会维护一个事务状态并且通过与其他节点通信来发现事务是否冲突
 
+可扩展好，但是需要强同步的时钟系统来解决事务的全局顺序问题
 
 
+为何不用2-phase Locking来解决并发控制问题？
+
+开销大，处理死锁复杂。
+
+NewSQL采用的思路是使用MVCC，写操作加锁，读操作不加锁
+
+也有的结合MVCC+2PL
+
+这种情况下,再进行事务的时候仍然需要经过2PL，当事务修改某项记录的时候，
+会产生这个记录的一个新版本。
+
+那么读操作的时候不需要获得锁，使用基于Time Order的MVCC获取版本数据
+
+也不会对写事务进行干扰。InnoDB就是这么做的。
 
 
+那么什么是2PL？
 
+两阶段的含义是指在同一个事务内，对所涉及的所有数据项进行先加锁，然后才对所有的数据项解锁
+
+我的理解是：加锁和解锁不能穿插进行
+
+
+总的来说，NewSQL的并发控制并没有什么新的IDEA，很大程度上都是采用原来的DBMS的2PL,MVCC
+
+
+#### 二级索引
+
+在分布式DBMS中我们需要考虑的是:
+
+* 在什么地方存储这个二级索引
+
+* 在事务中如何维护
+
+如果是中心化的coordinator,二级索引可以存储在协调者节点与分片节点上。
+
+这种方法的好处在于整个系统中只有一个二级索引的版本，便于维护
+
+但是NewSQL是去中心化的并且使用分区的二级索引————即每个节点拥有索引的一部分而不是整个拷贝
+
+这种方式在查找数据的时候可能要查找多个节点，更新就只更新一个节点
+
+复制方式就只查找一个节点，更新的话所有副本都要更新
+
+总结：
+
+分片存储二级索引
+
+
+#### 复制
+
+复制机制考虑的是DBMS如何保证节点的数据一致性
+
+在强一致性的DBMS中,事务的写操作提交之前必须要所有节点都同意。通常采用2PC，一方面是性能损耗大，
+而是容易因为网络分区故障出现阻塞
+
+所以NewSQL倾向于使用弱一致性(最终一致性)模型,就是提交事务之前不需要所有数据节点的同意
+
+* active-active复制
+
+所有复制节点执行相同的query，但是很难保证不同节点的执行顺序是严格一致的，考虑到网络延迟，时钟不同步等问题。
+
+* active-passive复制
+
+NewSQL通常采用的是第二种，单点写，然后给副本传递状态。
+
+#### 宕机恢复
+
+单节点的DBMS宕机恢复策略通常是加载磁盘上的checkpoint然后重新指向WAL中的内容使得状态恢复到宕机之前。
+
+但是分布式DBMS不能简单采用这种策略，因为master当即之后，子节点会选举出一个新的master，那么原master
+恢复的时候，还需要从master同步最新的数据(在它宕机期间整个系统还在运行)
+
+2 potential way:
+
+1.恢复节点加载ck，执行WAL，然后从master节点pull宕机期间的log entries
+
+直接应用日志的更新远远比重新执行原来的SQL要快
+
+2.直接从master节点或其他最新状态的节点拿checkpoint，删掉自己原来的checkpoint
+
+这种也是系统内新加入一个节点的做法
+
+通常可以用zookeeper,Raft或者是自己实现Paxos
+
+#### Future Trends
+
+HTAP hybrid and transaction-analytical processing
+
+read-time analytics 
+
+同时对实时数据和历史数据做分析处理
+
+实现HTAP的几种idea:
+
+1.实现两套DBMS
+
+一套用来做事务操作(OLTP),一套拿来做(OLAP)
+
+前端OLTP DBMS存储事务产生的数据
+
+OLTP产生的数据迁移至OLAP再做复杂分析，避免slow down OLTP的处理性能
+
+然后OLAP产生的数据再push到前端的OLTP
+
+2.Lambda 架构
+
+流批分离
+
+用Hadoop,Spark来执行批处理任务，处理历史数据
+
+用Storm,Spark Streaming,Flink来处理流式数据
+
+这两种方案的缺点就是需要为各自两套系统维护相同的代码，最重要的还是两套系统之间
+数据迁移慢的一P
+
+3.第三种就是用一个统一的HTAP DBMS
+
+同时支持高吞吐低延迟的OLTP和复杂长时间运行的OLAP
+
+结合了OLTP和OLAP一些比较新的技术如
+
+OLTP:in-memory storage,lock-free execution
+
+OLAP:行列混存
+
+比较典型的产品是SAP HANA和Mem SQL
+
+HANA achieves this
+by using multiple execution engines internally: one engine for
+row-oriented data that is better for transactions and a different
+engine for column-oriented data that is better for analytical
+queries
+
+
+### In summary
+
+NewSQL DBMS are relational DBMS combined with 
+OLAP,high scalability and high performance.
+
+* Main memory storage engine
+
+* Secondary Indexes
+
+* Replication
+
+* Concurrency control
+
+* Crash Recovery
+
+* Partitioning/Sharding
 
 
 ### ref

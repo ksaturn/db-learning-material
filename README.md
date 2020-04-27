@@ -36,3 +36,18 @@
 
 造轮子吧！尝试自己写一些数据库与分布式系统领域常见的数据结构
 
+先占坑：
+
+* skipList
+
+* Trie Tree
+
+* B/B+ Tree
+
+* LSM Tree
+
+* LRU
+
+* hashmap
+
+

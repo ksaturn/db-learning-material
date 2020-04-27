@@ -1,5 +1,6 @@
 # db-learning-material
-致力于打造最棒的数据库与分布式系统学习资料总结！
+
+数据库与分布式系统学习资料总结
 
 ### Course Material
 
@@ -21,9 +22,14 @@
 
 这里会展示一些论文阅读笔记
 
-[<<What's new with NewSQL>>](https://github.com/AlexanderChiuluvB/db-learning-material/tree/master/CMU-15-721/Lec-01-History-Of-Databases)
+[What's new with NewSQL](https://github.com/AlexanderChiuluvB/db-learning-material/tree/master/CMU-15-721/Lec-01-History-Of-Databases)
 
-这篇是15-721第一门课要求读的论文，带你进入NewSQL新领域！
+这篇是15-721第一门课要求读的论文，带你进入NewSQL新领域！OLAP&OLTP也能融合在一起~
+
+[Architecture of a Database System]()
+
+
+
 
 
 ### Code from scratch

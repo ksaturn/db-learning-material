@@ -372,6 +372,3 @@ OLAP,high scalability and high performance.
 * Partitioning/Sharding
 
 
-### ref
-
-https://www.dazhuanlan.com/2019/10/16/5da61be779020/

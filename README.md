@@ -37,11 +37,13 @@ CMU 15-721，我认为世界上公开的最棒的数据库进阶课程，初中�
 
 这篇是15-721第一门课要求读的论文，带你进入NewSQL新领域！
 
-[Architecture of a Database System]()
+[Architecture of a Database System](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/CMU-15-721/Lec-01-History-Of-Databases/DBArchitectureLearningNotes.md)
 
-数据库入门必备，让你对关系型数据库有一个整体架构的理解
+数据库入门必备，让你对关系型数据库有一个整体架构的理解。
 
+[An Evaluation of Concurrency Control with One Thousand Cores](https://blog.csdn.net/weixin_38499215/article/details/105883971)
 
+探讨多种并发控制策略在多核CPU下的性能瓶颈
 
 
 ### Code from scratch

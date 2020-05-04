@@ -13,7 +13,7 @@ CMU 15-721，我认为世界上公开的最棒的数据库进阶课程，初中�
 
 [MIT.6.824 英字Video](https://www.bilibili.com/video/av91748150)
 
-分布式入门课程，烂大街了，手写一个Raft-based KV,不过我还没写完，以后再补
+这我不用说了吧？
 
 
 ### Papers
@@ -31,19 +31,21 @@ CMU 15-721，我认为世界上公开的最棒的数据库进阶课程，初中�
 
 ### My paper reading notes
 
-这里会记录一些论文阅读笔记
-
 [What's new with NewSQL](https://github.com/AlexanderChiuluvB/db-learning-material/tree/master/CMU-15-721/Lec-01-History-Of-Databases)
 
-这篇是15-721第一门课要求读的论文，带你进入NewSQL新领域！
+这篇是15-721第一门课要求读的论文，讲述了New SQL的特性&HTAP是趋势
 
 [Architecture of a Database System](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/CMU-15-721/Lec-01-History-Of-Databases/DBArchitectureLearningNotes.md)
 
-数据库入门必备，让你对关系型数据库有一个整体架构的理解。
+数据库入门必备，让你对关系型数据库有一个整体架构的理解。这篇论文PingCAP在B站有导读。
 
 [An Evaluation of Concurrency Control with One Thousand Cores](https://blog.csdn.net/weixin_38499215/article/details/105883971)
 
 探讨多种并发控制策略在多核CPU下的性能瓶颈
+
+[An Empirical Evaluation of In-Memory MVCC](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/CMU-15-721/Lec-03-MVCC/MVCC-LEC01.pdf)
+
+Andy口中世界上南波万的关于MVCC的paper..读就完事了
 
 
 ### Code from scratch

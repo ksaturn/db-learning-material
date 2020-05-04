@@ -87,6 +87,8 @@ Txn2:把所有黑球变成白球
 
 
 
+下面是《An Empirical Evaluation of In-Memory MVCC》笔记,实际上是在CMU 15721第三课的课堂笔记
+
 ### MVCC DESIGN DECISIONS
 
 * Concurrency Control Protocol
@@ -147,6 +149,24 @@ eg:
 解锁之后，把TXN-ID复原为0
 
 ![1588565342953](C:\Users\AlexanderChiu\AppData\Roaming\Typora\typora-user-images\1588565342953.png)
+
+
+
+#### MVOCC(多版本乐观并发控制)
+
+1.**read phase** 
+
+Search for valid version (Write lock is not acquired and Txn id between begin-ts and end-ts)
+
+2.**validation phase**
+
+DBMS assigns the txn another timestamp(T commit), and check whether the read set was updated by another committed txn.
+
+3.**write phase**
+
+install new version, set the begin-ts to T commit and end-ts to inf.
+
+乐观并发控制对于冲突少的情况比较好，冲突一多了，读取过期版本的事务都会在validation phase被丢弃。
 
 
 
@@ -284,7 +304,11 @@ Variable-length data can be stored in separate space and be referenced by a poin
 With this approach, transactions do not maintain additional meta-data about old versions. Thus, the DBMS
 has to scan tables to find old versions.
 
-• Background Vacuuming: Separate threads **periodically scan the table and look for reclaimable versions**. Works with any version storage technique. To avoid repeatedly scanning through unmodified
+• Background Vacuuming: 
+
+后台线程进行GC
+
+Separate threads **periodically scan the table and look for reclaimable versions**. Works with any version storage technique. To avoid repeatedly scanning through unmodified
 data, the DBMS can use a **dirty block bitmap** to keep track of what blocks of data have been modified
 since the last scan.
 
@@ -300,7 +324,11 @@ Optimization：
 
 
 
-• Cooperative Cleaning: Worker threads identify reclaimable versions as they traverse version change.
+• Cooperative Cleaning: 
+
+使用事务处理本身的线程，协同处理GC
+
+Worker threads identify reclaimable versions as they traverse version change.
 Only works with O2N version chains. A problem with this is that if there are never any queries
 that access tuples with reclaimable versions, then these versions will not get cleaned up (i.e., “dusty
 corners”). Thus, the DBMS still has to periodically scan the table to find old versions. 
@@ -327,6 +355,10 @@ corners”). Thus, the DBMS still has to periodically scan the table to find old
 
 With this approach, **transactions keep track of their old version** so the DBMS does not have to scan tuples to determine visibility. The DBMS determines when all versions created by a finishing transaction are no longer visible.
 
+
+
+
+
 * Index Management
 
 
@@ -340,15 +372,17 @@ With this approach, **transactions keep track of their old version** so the DBMS
 Managing secondary indexes is more complicated than primary key indexes. There are two approaches to
 storing values that represent the location of a tuple’s version chain.
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190612212727315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3JzeTU2NjQw,size_16,color_FFFFFF,t_70)
+![1588598186149](C:\Users\AlexanderChiu\AppData\Roaming\Typora\typora-user-images\1588598186149.png)
 
 Postgres:
 
-**Approach #1: Physical Address**
+**Approach #1: Physical Pointer**
 • Use physical address to the version chain head.
 • If a databases has many secondary indexes, then updates can become expensive because the DBMS
 has update all the indexes to the new location (e.g., each update to a N2O version chain requires the
 DBMS to update every index with the memory address of the new version chain head).
+
+直接指向存储tuple的物理地址，只适用于Append-Only的Version Storage(当修改一个Tuple是，会将新版本直接插入二级索引)，适合于读多的场景
 
 ![1588582450024](C:\Users\AlexanderChiu\AppData\Roaming\Typora\typora-user-images\1588582450024.png)
 
@@ -361,22 +395,16 @@ MySQL:
 redirect to the physical address. This approach has high store overhead if the size of the primary key
 is large.
 
-
+通过增加一次间接层，解决Tuple物理地址的变更导致要修改索引的指向问题。索引的value的选择可以是主键，或者是tupleid隐式主键。隐式主键的好处是大小可控。适合于写多的场景.
 
 ![1588582507804](C:\Users\AlexanderChiu\AppData\Roaming\Typora\typora-user-images\1588582507804.png)
 
 
 
+一旦Primary key的大小变大，会对数据库的存储造成一定压力，并且secondary index是拥有其完整的copy.并且DBMS还要维护保证主键有序的数据结构。可以采用以下策略：
+
 • Tuple ID: Use a fixed identifier per tuple that does not change. This approach requires an extra
-indirection layer(A hashmap) to map the id to a physical address. For example, this could be a hash table that maps Tuple IDs to physical addresses 
-
-
-
-
-
-
-
-
+indirection layer(A hashmap) to map the id to a physical address（HEAD of the tuple's version chain）. For example, this could be a hash table that maps Tuple IDs to physical addresses 
 
 
 

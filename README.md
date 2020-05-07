@@ -6,7 +6,7 @@
 
 [CMU-15-721-英字Video](https://www.bilibili.com/video/BV1Wz411b7sD?from=search&seid=1785395184520069316)
 
-[CMU-15-721-Course-website ](https://15721.courses.cs.cmu.edu/spring2017/schedule.html)
+[CMU-15-721-Course-website ](https://15721.courses.cs.cmu.edu/spring2020/)
 
 CMU 15-721，我认为世界上公开的最棒的数据库进阶课程，初中级数据库工程师自嗨必备
 

@@ -43,7 +43,7 @@ CMU 15-721，我认为世界上公开的最棒的数据库进阶课程，初中�
 
 探讨多种并发控制策略在多核CPU下的性能瓶颈
 
-[An Empirical Evaluation of In-Memory MVCC](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/CMU-15-721/Lec-03-MVCC/MVCC-LEC01.pdf)
+[An Empirical Evaluation of In-Memory MVCC](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/CMU-15-721/Lec-03-MVCC-design/MVCC-LEC01.pdf)
 
 Andy口中世界上南波万的关于MVCC的paper..读就完事了
 
@@ -68,3 +68,11 @@ Andy口中世界上南波万的关于MVCC的paper..读就完事了
 
 * Raft
 
+* Bloom Filter
+
+* BitMap
+
+[A very simple BitMap demo based on JDK BitSet](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/Data-structure/src/main/java/BitMap/BitMap.java)
+参考BitSet写的一个很弱智的bitmap
+
+[BitSet源码解读]()

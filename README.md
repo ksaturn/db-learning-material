@@ -50,7 +50,7 @@ Andy口中世界上南波万的关于MVCC的paper..读就完事了
 
 ### Code from scratch
 
-造轮子吧！尝试自己写一些数据库与分布式系统领域常见的数据结构与算法
+一些数据库与分布式系统领域常见的数据结构,一些太复杂的以阅读别人实现好的轮子代替.
 
 * skipList
 
@@ -71,6 +71,8 @@ Andy口中世界上南波万的关于MVCC的paper..读就完事了
 * Raft
 
 * Bloom Filter
+
+* Roaring BitMap
 
 * BitMap
 

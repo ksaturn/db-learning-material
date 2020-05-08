@@ -62,9 +62,11 @@ Andy口中世界上南波万的关于MVCC的paper..读就完事了
 
 * LRU
 
+* LFU
+
 * hashmap
 
-* 红黑树
+* Red-Black Tree
 
 * Raft
 
@@ -73,6 +75,7 @@ Andy口中世界上南波万的关于MVCC的paper..读就完事了
 * BitMap
 
 [A very simple BitMap demo based on JDK BitSet](https://github.com/AlexanderChiuluvB/db-learning-material/blob/master/Data-structure/src/main/java/BitMap/BitMap.java)
+
 参考BitSet写的一个很弱智的bitmap
 
 [BitSet源码解读]()

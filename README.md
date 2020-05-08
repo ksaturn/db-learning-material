@@ -78,4 +78,4 @@ Andy口中世界上南波万的关于MVCC的paper..读就完事了
 
 参考BitSet写的一个很弱智的bitmap
 
-[BitSet源码解读]()
+[BitSet源码解读](https://blog.csdn.net/weixin_38499215/article/details/105996592)

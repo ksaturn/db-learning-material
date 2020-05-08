@@ -1,7 +1,6 @@
 package BitMap;
 
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 public class BitMap {
 

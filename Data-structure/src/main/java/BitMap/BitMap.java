@@ -1,6 +1,7 @@
 package BitMap;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class BitMap {
 
@@ -146,6 +147,23 @@ public class BitMap {
         //Test 5 tryExpand
         bitMap.set(100);
         System.out.println(bitMap.wordCount()); //2
+
+
+        List<Integer> randomList = new ArrayList<>();
+        Random random = new Random();
+        for(int i = 0; i < 10000000; i++){
+            randomList.add(random.nextInt(100000000)+1);
+        }
+
+        BitSet bitSet = new BitSet(100000001);
+
+        List<Integer> notInRandomList = new ArrayList<>();
+        for(int i = 0; i <= 10000000;i++){
+            if(!bitSet.get(i)){
+                notInRandomList.add(i);
+            }
+        }
+
     }
 
 }

@@ -1,6 +1,6 @@
 # db-learning-material
 
-数据库与分布式系统学习资料总结
+数据库与分布式系统学习资料总结,有缘人进来点个star,祝您一生平安靴靴
 
 ### Course Material
 
